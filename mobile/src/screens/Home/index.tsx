@@ -13,12 +13,13 @@ export function Home() {
   const [games, setGames] = useState<GameCardProps[]>([]);
 
   const navigation = useNavigation();
-  function handleOpenGame() {
-
+  
+  function handleOpenGame({ id, title, bannerUrl }: GameCardProps) {
+    navigation.navigate('game', {id, title, bannerUrl});
   }
 
   useEffect(() => {
-    fetch('http://192.168.15.7:3333/games')
+    fetch('http://192.168.15.8:3333/games')
       .then(response => response.json())
       .then(data => setGames(data));
   }, []);
@@ -41,7 +42,7 @@ export function Home() {
           renderItem={({ item }) => (
             <GameCard
               data={item}
-              onPress={handleOpenGame}
+              onPress={() => handleOpenGame(item)}
             />
           )}
           showsHorizontalScrollIndicator={false}
